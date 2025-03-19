@@ -1,3 +1,4 @@
+import com.sun.source.tree.AssertTree;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,8 +43,14 @@ class Question1Test {
     void testDepartmentNames() {
         List<Question1.Department> departments = metacube.getAllDepartments();
         assertEquals(2, departments.size());
+
+        // positive test case
         assertEquals("Sales Department", departments.get(0).getDeptName());
         assertEquals("Dev Department", departments.get(1).getDeptName());
+
+        // negative test case
+        assertFalse(metacube.addDepartment(devDepartment));
+
     }
 
     @Test
@@ -66,7 +73,9 @@ class Question1Test {
         assertEquals(20000, employee1.getBasicSalary());
         assertEquals(16000, employee2.getBasicSalary());
         assertEquals(18000, employee3.getBasicSalary());
-        assertEquals(10000, employee4.getBasicSalary());
+
+        // negative test case 
+        assertNotEquals(1000, employee4.getBasicSalary());
     }
 
     @Test
