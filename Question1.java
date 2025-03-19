@@ -80,14 +80,24 @@ class Question1 {
 
         // adding the employee into the department
         boolean joinEmployee(Employee emp) {
+            for (Employee e : listOfEmployees) {
+                if (e.emp_id == emp.emp_id) {
+                    return false;
+                }
+            }
             listOfEmployees.add(emp);
             return true;
         }
 
         // removing the empployee into the department
         boolean removeEmployee(Employee emp) {
-            listOfEmployees.remove(emp);
-            return true;
+            for (Employee e : listOfEmployees) {
+                if (e.emp_id == emp.emp_id) {
+                    listOfEmployees.remove(emp);
+                    return true;
+                }
+            }
+            return false;
         }
 
         // returning the list of all empoyees in a department
@@ -105,14 +115,19 @@ class Question1 {
     static class Metacube {
 
         List<Department> departmentList;
-
         List<Employee> finalList = new ArrayList<>();
+
 
         public Metacube() {
             departmentList = new ArrayList<>();
         }
 
         public boolean addDepartment(Department dep) {
+            for(Department d : departmentList){
+                if(dep.getDeptName() == d.getDeptName()){
+                    return false;
+                }
+            }
             departmentList.add(dep);
             return true;
         }
@@ -122,8 +137,9 @@ class Question1 {
         }
 
         public List<Employee> getAllEmployees() {
+
             for (Department dp : departmentList) {
-                finalList.addAll(dp.listOfEmployees);
+                finalList.addAll(dp.getAllEmployees());
             }
             return finalList;
         }
@@ -133,11 +149,11 @@ class Question1 {
     static class Payroll {
 
         Metacube meta;
-    
+
         public Payroll(Metacube meta) {
             this.meta = meta;
         }
-     
+
         void getSalarySlip(Employee e) {
 
             System.out.println("Here is the salary slip of: " + e.emp_name);
@@ -149,7 +165,7 @@ class Question1 {
             System.out.println("Your total salary is: " + e.getSalary());
 
         }
-            
+
     }
 
     public static void main(String[] args) {
@@ -185,16 +201,14 @@ class Question1 {
         devDepartment.joinEmployee(employee3);
         devDepartment.joinEmployee(employee4);
 
-
-       
         System.out.println("**********************************************");
-        
+
         System.out.println("The employess names of devDepartment are: ");
         List<Employee> devEmployeeList = devDepartment.getAllEmployees();
         for (Employee e : devEmployeeList) {
             System.out.println("name -> " + e.emp_name + "and  id -> " + e.emp_id);
         }
-        
+
         System.out.println("The employess names fo salesDepartment are: ");
         List<Employee> salesEmployeeList = salesDepartment.getAllEmployees();
         for (Employee e : salesEmployeeList) {
@@ -212,13 +226,15 @@ class Question1 {
             pay.getSalarySlip(e);
         }
 
-
         System.out.println("************************************************");
         System.out.println("List of all employes in metacube are: ");
-        List<Employee> allEmployees = metacube.getAllEmployees();
+        List<Employee> allEmployees = metacube.finalList;
+
+        System.out.println(allEmployees.size());
         for (Employee e : allEmployees) {
             System.out.println("name -> " + e.emp_name + "and  id -> " + e.emp_id);
 
         }
+
     }
 }
